@@ -79,13 +79,16 @@ def mqtt_connect(address, port):
 
 
 relay = Pin(5, Pin.OUT)
-led = PWM(Pin(2, Pin.OUT), freq=1, duty=512)
+led = PWM(Pin(2, Pin.OUT), freq=3, duty=512)
 
 station = network.WLAN(network.STA_IF)
+
 print("\n" + str(station.status()))
 while station.status() == 1:  # status 1: connecting in progress
     pass
 print(str(station.status()) + "\n")
+
+led.freq(1)
 
 if not station.isconnected():  # if there is no saved Wi-Fi data
     get_creds()
@@ -93,6 +96,7 @@ if not station.isconnected():  # if there is no saved Wi-Fi data
 led.freq(1000)
 relay.on()
 led.duty(0)
+relay.value(1)
 
 print('after after: ' + str(station.status()))
 print('Ready')
